@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yupi.sqlfather.mapper.FieldInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.yupi.sqlfather.model.entity.FieldInfo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="fieldName" column="fieldName" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="reviewStatus" column="reviewStatus" jdbcType="INTEGER"/>
+            <result property="reviewMessage" column="reviewMessage" jdbcType="VARCHAR"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,fieldName,content,
+        reviewStatus,reviewMessage,userId,
+        createTime,updateTime,isDelete
+    </sql>
+</mapper>

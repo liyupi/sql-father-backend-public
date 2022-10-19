@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: sql-father-backend
+  # 默认 dev 环境
+  profiles:
+    active: dev
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sqlfather
+    username: root
+    password: 123456
+server:
+  address: 0.0.0.0
+  port: 8102
+  servlet:
+    context-path: /api
+    # session 30 天过期
+    session:
+      timeout: "P30D"
+      cookie:
+        same-site: none
+        secure: true
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
