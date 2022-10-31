@@ -322,5 +322,6 @@ npm run build
 ## 致谢
 
 部分词库来源：[https://github.com/fighting41love/funNLP](https://github.com/fighting41love/funNLP)
+
 示例表信息来源：[https://open.yesapi.cn/list1.html](https://open.yesapi.cn/list1.html)
 

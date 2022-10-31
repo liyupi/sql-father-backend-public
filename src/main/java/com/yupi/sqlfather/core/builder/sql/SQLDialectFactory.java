@@ -1,8 +1,8 @@
 package com.yupi.sqlfather.core.builder.sql;
 
-import cn.hutool.db.dialect.DialectFactory;
 import com.yupi.sqlfather.common.ErrorCode;
 import com.yupi.sqlfather.exception.BusinessException;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
