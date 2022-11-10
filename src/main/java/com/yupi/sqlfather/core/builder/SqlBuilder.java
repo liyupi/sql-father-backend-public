@@ -207,10 +207,13 @@ public class SqlBuilder {
         }
         FieldTypeEnum fieldTypeEnum = Optional.ofNullable(FieldTypeEnum.getEnumByValue(field.getFieldType()))
                 .orElse(FieldTypeEnum.TEXT);
+        String result = String.valueOf(value);
         switch (fieldTypeEnum) {
+            case DATETIME:
+            case TIMESTAMP:
+                return result.equalsIgnoreCase("CURRENT_TIMESTAMP") ? result : String.format("'%s'", value);
             case DATE:
             case TIME:
-            case DATETIME:
             case CHAR:
             case VARCHAR:
             case TINYTEXT:
@@ -225,7 +228,7 @@ public class SqlBuilder {
             case VARBINARY:
                 return String.format("'%s'", value);
             default:
-                return String.valueOf(value);
+                return result;
         }
     }
 }
