@@ -18,6 +18,14 @@ public class MySQLDialect implements SQLDialect {
         return String.format("`%s`", name);
     }
 
+    @Override
+    public String parseDbName(String dbName) {
+        if (dbName.startsWith("`") && dbName.endsWith("`")) {
+            return dbName.substring(1, dbName.length() - 1);
+        }
+        return dbName;
+    }
+
     /**
      * 解析字段名
      *
