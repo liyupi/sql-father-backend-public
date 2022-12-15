@@ -1,10 +1,13 @@
 package com.yupi.sqlfather.core.schema;
 
+import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.statement.SQLColumnDefinition;
 import com.alibaba.druid.sql.ast.statement.SQLCreateTableStatement;
 import com.alibaba.druid.sql.ast.statement.SQLPrimaryKey;
 import com.alibaba.druid.sql.ast.statement.SQLTableElement;
+import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.parser.MySqlCreateTableParser;
+import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
@@ -18,6 +21,7 @@ import com.yupi.sqlfather.model.entity.FieldInfo;
 import com.yupi.sqlfather.service.FieldInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -169,8 +173,41 @@ public class TableSchemaBuilder {
             tableSchema.setFieldList(fieldList);
             return tableSchema;
         } catch (Exception e) {
-            log.error("SQL 解析错误", e);
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "请确认 SQL 语句正确");
+            /**
+             * 示例：
+             * insert into db.table (name, age, sex, flag) values\n" +
+             *                 "('zhangsan',18,'男',true), \n" +
+             *                 "('lisi',18,'男',true);
+             */
+            // 尝试解析insert语句
+            TableSchema tableSchema = new TableSchema();
+            try {
+                // 解析SQL
+                MySqlStatementParser parser = new MySqlStatementParser(sql);
+                MySqlInsertStatement statement = (MySqlInsertStatement) parser.parseStatement();
+                tableSchema.setDbName(sqlDialect.parseDbName(statement.getTableSource().getSchema()));
+                tableSchema.setTableName(sqlDialect.parseTableName(statement.getTableSource().getTableName()));
+                List<SQLExpr> columns = statement.getColumns();
+                List<Field> fieldList = Lists.newArrayList();
+                for (SQLExpr column : columns) {
+                    Field field = new Field();
+                    field.setFieldName(sqlDialect.parseFieldName(column.toString()));
+                    // 将注释默认设置为列名
+                    field.setComment(sqlDialect.parseFieldName(column.toString()));
+                    fieldList.add(field);
+                }
+                // 处理字段的类型
+                // insert语句若插入多条，取第一条
+                List<SQLExpr> values = statement.getValuesList().get(0).getValues();
+                for (int i = 0; i < fieldList.size(); i++) {
+                    fieldList.get(i).setFieldType(getFieldTypeByValue(String.valueOf(values.get(i))));
+                }
+                tableSchema.setFieldList(fieldList);
+                return tableSchema;
+            } catch (Exception e2) {
+                log.error("insert SQL 解析错误", e2);
+                throw new BusinessException(ErrorCode.PARAMS_ERROR, "请确认 SQL 语句正确");
+            }
         }
     }
 

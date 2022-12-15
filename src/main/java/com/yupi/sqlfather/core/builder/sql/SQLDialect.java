@@ -15,6 +15,14 @@ public interface SQLDialect {
     String wrapFieldName(String name);
 
     /**
+     * 解析数据库名
+     *
+     * @param dbName
+     * @return
+     */
+    String parseDbName(String dbName);
+
+    /**
      * 解析字段名
      * @param fieldName
      * @return
