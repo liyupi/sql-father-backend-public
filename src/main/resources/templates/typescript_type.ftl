@@ -5,7 +5,7 @@
 interface ${className} {
 <#-- 循环生成字段 ---------->
 <#list fieldList as field>
-  // ${field.comment}
+  // ${field.comment!""}
   ${field.fieldName}: ${field.typescriptType};
 </#list>
 }
