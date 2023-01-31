@@ -3,6 +3,8 @@ package com.yupi.sqlfather.core.model.enums;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import cn.hutool.core.text.CharSequenceUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -70,7 +72,8 @@ public enum FieldTypeEnum {
             return null;
         }
         for (FieldTypeEnum mockTypeEnum : FieldTypeEnum.values()) {
-            if (mockTypeEnum.value.equals(value)) {
+            // 字段类型匹配时忽略长度
+            if (mockTypeEnum.value.equals(value.replaceFirst("[(]\\d+[)]", CharSequenceUtil.EMPTY))) {
                 return mockTypeEnum;
             }
         }
