@@ -62,7 +62,7 @@ public class SqlBuilder {
                 + "create table if not exists %s\n"
                 + "(\n"
                 + "%s\n"
-                + ") %s;";
+                + ") %s ENGINE INNODB  DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;";
         // 构造表名
         String tableName = sqlDialect.wrapTableName(tableSchema.getTableName());
         String dbName = tableSchema.getDbName();

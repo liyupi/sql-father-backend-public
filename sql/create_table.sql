@@ -19,8 +19,7 @@ create table if not exists user
     isDelete     tinyint      default 0                 not null comment '是否删除',
     constraint uni_userAccount
         unique (userAccount)
-)
-    comment '用户';
+) comment '用户'ENGINE INNODB  DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
 
 -- 词库表
 create table if not exists dict
@@ -34,7 +33,7 @@ create table if not exists dict
     createTime    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete      tinyint  default 0                 not null comment '是否删除'
-) comment '词库';
+) comment '词库'ENGINE INNODB  DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
 
 create index idx_name
     on dict (name);
@@ -51,7 +50,7 @@ create table if not exists table_info
     createTime    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete      tinyint  default 0                 not null comment '是否删除'
-) comment '表信息';
+) comment '表信息'ENGINE INNODB  DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
 
 create index idx_name
     on table_info (name);
@@ -69,7 +68,7 @@ create table if not exists field_info
     createTime    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete      tinyint  default 0                 not null comment '是否删除'
-) comment '字段信息';
+) comment '字段信息'ENGINE INNODB  DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
 
 create index idx_fieldName
     on field_info (fieldName);
@@ -90,4 +89,4 @@ create table if not exists report
     createTime     datetime default CURRENT_TIMESTAMP not null comment '创建时间',
     updateTime     datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
     isDelete       tinyint  default 0                 not null comment '是否删除'
-) comment '举报';
+) comment '举报'ENGINE INNODB  DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
