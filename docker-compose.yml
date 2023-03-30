@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  backend:
+    image: ordar/sqlfather-backend
+    ports:
+      - 8102:8102
+    working_dir: /app
+    depends_on:
+      - mysql
+      
+  frontend:
+    image: ordar/sqlfather-frontend
+    ports:
+      - 80:80
+  
+  mysql:
+    image: ordar/sqlfather-mysql
