@@ -235,9 +235,9 @@ public class DictController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         QueryWrapper<Dict> queryWrapper = getQueryWrapper(dictQueryRequest);
-        queryWrapper.eq("userId", loginUser.getId())
+        queryWrapper.and(wrapper -> wrapper.eq("userId", loginUser.getId())
                 .or()
-                .eq("reviewStatus", ReviewStatusEnum.PASS.getValue());
+                .eq("reviewStatus", ReviewStatusEnum.PASS.getValue()));
         Page<Dict> dictPage = dictService.page(new Page<>(current, size), queryWrapper);
         return ResultUtils.success(dictPage);
     }

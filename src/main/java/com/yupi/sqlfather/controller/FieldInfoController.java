@@ -241,9 +241,10 @@ public class FieldInfoController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         QueryWrapper<FieldInfo> queryWrapper = getQueryWrapper(fieldInfoQueryRequest);
-        queryWrapper.eq("userId", loginUser.getId())
+        queryWrapper.and(wrapper -> wrapper.eq("userId", loginUser.getId())
                 .or()
-                .eq("reviewStatus", ReviewStatusEnum.PASS.getValue());
+                .eq("reviewStatus", ReviewStatusEnum.PASS.getValue()));
+        Page<Dict> dictPage = dictService.page(new Page<>(current, size), queryWrapper);
         Page<FieldInfo> fieldInfoPage = fieldInfoService.page(new Page<>(current, size), queryWrapper);
         return ResultUtils.success(fieldInfoPage);
     }

@@ -239,9 +239,10 @@ public class TableInfoController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         QueryWrapper<TableInfo> queryWrapper = getQueryWrapper(tableInfoQueryRequest);
-        queryWrapper.eq("userId", loginUser.getId())
+        queryWrapper.and(wrapper -> wrapper.eq("userId", loginUser.getId())
                 .or()
-                .eq("reviewStatus", ReviewStatusEnum.PASS.getValue());
+                .eq("reviewStatus", ReviewStatusEnum.PASS.getValue()));
+        Page<Dict> dictPage = dictService.page(new Page<>(current, size), queryWrapper);
         Page<TableInfo> tableInfoPage = tableInfoService.page(new Page<>(current, size), queryWrapper);
         return ResultUtils.success(tableInfoPage);
     }
